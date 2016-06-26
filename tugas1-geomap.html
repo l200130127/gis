@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Include Google Maps JS API -->
+        <script type="text/javascript"
+          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAtS_6mlBUfmxGrmePDkeg3iRS0cgVHUXk&sensor=false">
+        </script>
+        <style type="text/css">
+              #mapDiv { width: 1500px; height: 550px; }
+        </style>
+        <link href="style.css" rel="stylesheet">
+        <!-- Map creation is here -->
+        <script type="text/javascript">
+              //Defining map as a global variable to access from other functions
+              var map;
+              function initMap () {
+                    //Enabling new cartography and themes
+                    google.maps.visualRefresh = true;
+                    //Setting starting options of map
+                    var mapOptions = {
+                          center: new google.maps.LatLng(-7.5576119,110.7703069),
+                          zoom: 18,
+                          mapTypeId: google.maps.MapTypeId.ROADMAP,
+                          disableDefaultUI: true
+                    };
+                    //Getting map DOM element
+                    var mapElement = document.getElementById('mapDiv');
+                    //Creating a map with DOM element which is just obtained
+                    map = new google.maps.Map(mapElement, mapOptions);
+                    startButtonEvents();
+              }
+              //Function that start listening the click events of the buttons.
+              function startButtonEvents () {
+                  document.getElementById('btnRoad').addEventListener('click', function(){
+                      map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
+                  });
+                  document.getElementById('btnSat').addEventListener('click', function(){
+                      map.setMapTypeId(google.maps.MapTypeId.SATELLITE);
+                  });
+                  document.getElementById('btnHyb').addEventListener('click', function(){
+                      map.setMapTypeId(google.maps.MapTypeId.HYBRID);
+                  });
+                  document.getElementById('btnTer').addEventListener('click', function(){
+                      map.setMapTypeId(google.maps.MapTypeId.TERRAIN);
+                  });
+              }
+              google.maps.event.addDomListener(window, 'load', initMap);
+        </script>
+    </head>
+    <body>
+        <h1><b>MAP UNIVERSITAS MUHAMMADIYAH SURAKARTA</b></h1><br/>
+        <legend></legend>
+        <button id="btnRoad" class="btn btn-danger">ROAD MAP</button>
+        <button id="btnSat" class="btn btn-danger">SATELLITE</button>
+        <button id="btnHyb" class="btn btn-danger">HYBRID</button>
+        <button id="btnTer" class="btn btn-danger">TERRAIN</button>
+        <div id="mapDiv"></div>
+    </body>
+</html>

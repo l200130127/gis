@@ -1,0 +1,69 @@
+<html>
+<head>
+	<!-- 
+	Nama : Muh Syahriandi Adhantoro
+	NIM : L200130127
+	-->
+	<title>UTS Nomor 4</title>
+	<script src="https://maps.googleapis.com/maps/api/js"></script>
+	<script>
+		var map = null;
+		function init(){
+			var opt = {
+				center:{lat:0, lng:0}, 
+				zoom:21,
+				mapTypeId:google.maps.MapTypeId.ROADMAP
+			};
+			map = new google.maps.Map(document.getElementById("ma"), opt);
+			getCurLoc(map); 
+			setOsama(map); 
+			changeCenter(map); 
+		}
+		function changeCenter(map){
+			document.getElementById("ums").addEventListener('click', function(){
+				map.setCenter({lat: -7.5567152, lng: 110.770925});
+				map.setZoom(2);
+			});
+			document.getElementById("here").addEventListener('click', function(){
+				getCurLoc(map);
+			});
+			return false;
+		}
+		function getCurLoc(map){
+			var zoom = 21;
+			if (navigator.geolocation){
+				navigator.geolocation.getCurrentPosition(function(position){
+					map.setCenter({lat:position.coords.latitude, lng:position.coords.longitude});
+					map.setZoom(zoom);
+				});
+			}else{
+				alert("No geolocation support");
+			}
+		}
+		function setOsama(){
+			var osmMapType = new google.maps.ImageMapType({
+		         	getTileUrl: function(coord, zoom) {
+            		return "http://tile.openstreetmap.org/" + zoom + "/" + coord.x + "/" + coord.y + ".png";
+        		},
+        		tileSize: new google.maps.Size(256, 256),
+        		name: "OpenStreetMap",
+        		maxZoom: 18
+    		});
+			map.mapTypes.set('OSM', osmMapType);
+			map.setMapTypeId('OSM');
+		}
+		function setGMap(){
+			map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
+		}
+		google.maps.event.addDomListener(window, 'load', init);
+	</script>
+
+</head>
+<body>
+	<button id="ums">UMS</button>
+	<button id="here">LokasiKu</button>
+	<button onclick="setOsama();">OSM</button>
+	<button onclick="setGMap();">GMAP</button>
+	<div style="width:100%;height:100%" id="ma"></div>
+</body>
+</html>
